@@ -1,0 +1,21 @@
+ Construct Binary Tree from Preorder and Inorder Traversal
+ 
+ date : 14-07-22
+ 
+ class Solution:
+    def buildTree(self, preorder: List[int], inorder: List[int]) -> Optional[TreeNode]:
+        p=deque(preorder)
+        n=len(preorder)
+        
+        lookup={v:i for i,v in enumerate(inorder)}
+        def rec(start,end):
+            if start>end:
+                return None
+            else:
+                cand=p.popleft()
+                root=TreeNode(cand)
+                middle=lookup[cand]
+                root.left=rec(start,middle-1)
+                root.right=rec(middle+1,end)
+                return root
+        return rec(0,n-1)
